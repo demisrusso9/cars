@@ -1,0 +1,57 @@
+.App, .input-block {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.container {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   background-color: rgb(56, 250, 88);
+   padding: 1rem;
+}
+
+.inputs {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.input-block+.input-block {
+   margin-left: 1rem;
+}
+
+.input-block label {
+   font: 400 1.2rem/1 Roboto;
+   font-weight: bold;
+}
+
+.input-block input {
+   padding: 0.4rem;
+   box-shadow: 2px 2px 4px black;
+   border: 0;
+}
+
+.send {
+   height: 35px;
+   width: 100px;
+   margin-top: 2rem;
+   border: 0;
+   border-radius: 5px;
+   background-color: rgb(38, 212, 38);
+   font-size: 1.2rem;
+   color: white;
+}
+
+.send:hover {
+   cursor: pointer;
+   opacity: .6;
+}
+
+.messages {
+   margin-top: 0.8rem;
+}
