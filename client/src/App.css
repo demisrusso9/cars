@@ -53,5 +53,32 @@
 }
 
 .messages {
-   margin-top: 0.8rem;
+   margin: 0.8rem 0;
+}
+
+table {
+   width: 80vw;
+   box-shadow: 1px 1px 5px black;   
+   border-collapse: collapse;
+}
+
+table th {
+   padding: 1rem 0;
+   background-color: #4CAF50;
+   color: white;
+   cursor: pointer;
+}
+
+table td, th {
+   border: 1px solid #ddd;
+   padding: 0.8rem;
+   text-align: center;
+}
+
+table tr:nth-child(even) {
+   background-color: #f2f2f2;
+}
+
+table tr:hover {
+   background-color: #ddd;
 }

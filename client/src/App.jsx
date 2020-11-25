@@ -12,15 +12,33 @@ function App() {
   const [list, setList] = useState([])
 
   const addCar = () => {
-    Axios.post('http://localhost:3003/insert', {
+    Axios.post('http://localhost:3003/cars/insert', {
       brand, model, year
+    }).then(res => {
+      setMessage(res.data.message)
+      setList([...list, { brand, model, year }])
+    })
+  }
+
+  const updateCar = (id) => {
+    const brand = prompt('Enter new Brand: ')
+    const model = prompt('Enter new Model: ')
+    const year = prompt('Enter new Year: ')
+
+    Axios.put('http://localhost:3003/cars/update', {
+      id, brand, model, year
     }).then(res => setMessage(res.data.message))
   }
 
+  const deleteCar = (id) => {
+    Axios.delete(`http://localhost:3003/cars/delete/${id}`)
+      .then(res => setMessage(res.data.message))
+  }
+
   useEffect(() => {
-    Axios.get('http://localhost:3003/read')
+    Axios.get('http://localhost:3003/cars/read')
       .then(res => setList(res.data))
-  }, [])
+  }, [deleteCar])
 
   return (
     <div className="App">
@@ -46,7 +64,7 @@ function App() {
       </div>
 
       <div className="messages">
-        {message}
+        <p>{message}</p>
       </div>
 
       <table>
@@ -55,6 +73,7 @@ function App() {
             <th>Brand</th>
             <th>Model</th>
             <th>Year</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -64,8 +83,10 @@ function App() {
               <td>{car.brand}</td>
               <td>{car.model}</td>
               <td>{car.year}</td>
-              <button>Rename</button>
-              <button>Delete</button>
+              <td>
+                <button onClick={_ => updateCar(car._id)}>Rename</button>
+                <button onClick={_ => deleteCar(car._id)}>Delete</button>
+              </td>
             </tr>
           )}
         </tbody>
