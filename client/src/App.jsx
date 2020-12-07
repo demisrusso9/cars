@@ -1,44 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
+import React, { useState } from 'react'
+import CRUD from './AppLogic'
 import './App.css';
 
 function App() {
+  const { addCar, updateCar, deleteCar, setBrand, setModel, setYear, message, list, setList } = CRUD()
 
-  const [brand, setBrand] = useState('')
-  const [model, setModel] = useState('')
-  const [year, setYear] = useState()
+  const [orderASC, setOrderASC] = useState(true);
 
-  const [message, setMessage] = useState('')
-  const [list, setList] = useState([])
+  const sortList = (property) => {
+    const types = { brand: 'brand', model: 'model', year: 'year' }
+    const sortProperty = types[property]
 
-  const addCar = () => {
-    Axios.post('http://localhost:3003/cars/insert', {
-      brand, model, year
-    }).then(res => {
-      setMessage(res.data.message)
-      setList([...list, { brand, model, year }])
-    })
+    if (orderASC) {
+      setOrderASC(prev => !prev)
+      setList(list.sort((a, b) => a[sortProperty] > b[sortProperty] ? 1 : -1))
+    } else {
+      setOrderASC(prev => !prev)
+      setList(list.sort((a, b) => a[sortProperty] < b[sortProperty] ? 1 : -1))
+    }
   }
-
-  const updateCar = (id) => {
-    const brand = prompt('Enter new Brand: ')
-    const model = prompt('Enter new Model: ')
-    const year = prompt('Enter new Year: ')
-
-    Axios.put('http://localhost:3003/cars/update', {
-      id, brand, model, year
-    }).then(res => setMessage(res.data.message))
-  }
-
-  const deleteCar = (id) => {
-    Axios.delete(`http://localhost:3003/cars/delete/${id}`)
-      .then(res => setMessage(res.data.message))
-  }
-
-  useEffect(() => {
-    Axios.get('http://localhost:3003/cars/read')
-      .then(res => setList(res.data))
-  }, [deleteCar])
 
   return (
     <div className="App">
@@ -70,9 +50,9 @@ function App() {
       <table>
         <thead>
           <tr>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Year</th>
+            <th onClick={_ => sortList(`brand`)}>Brand</th>
+            <th onClick={_ => sortList(`model`)}>Model</th>
+            <th onClick={_ => sortList(`year`)}>Year</th>
             <th>Actions</th>
           </tr>
         </thead>

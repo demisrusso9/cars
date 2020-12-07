@@ -28,21 +28,17 @@ routes.put('/cars/update', async (req, res) => {
          carUpdated.model = model;
          carUpdated.year = Number(year);
          carUpdated.save()
+         res.send({ message: 'Registry renamed successfully' })
       })
 
-      res.json({ message: 'Registry renamed successfully' })
    } catch (error) {
       console.log(error);
    }
 })
 
-routes.delete('/cars/delete/:id', async (req, res) => {
-   const { id } = req.params;
-   
-   CarModel.deleteOne({ _id: id }, (err, result) => {
-      if (err) res.json({ message: 'Delete unsuccessfully' })
-      res.json({ message: 'Delete successfully' })
-   })
+routes.delete('/cars/delete/:id', async (req, res) => {   
+   await CarModel.findByIdAndDelete(req.params.id).exec()
+   res.send({ message: 'Delete successfully' })      
 })
 
 module.exports = routes
